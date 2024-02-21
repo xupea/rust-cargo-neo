@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": "cargo build --manifest-path ../Cargo.toml --target i686-pc-windows-msvc"
   },
   "keywords": [],
   "author": "",
