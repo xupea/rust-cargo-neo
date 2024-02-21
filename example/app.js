@@ -2,21 +2,22 @@ const path = require("path");
 const ffi = require("ffi-napi");
 
 // Define the argument types and return type of the factorial function
-const { get_latest_sessions_from_local } = ffi.Library(
-  "../target/debug/libmylib.dylib",
-  {
-    get_latest_sessions_from_local: ["void", ["string", "pointer"]],
-  }
-);
-
-// 定义回调函数的类型
-const callbackType = ffi.Callback("void", ["string"], (sessionList) => {
-  console.log("Session list:", sessionList);
+const { test } = ffi.Library("../target/i686-pc-windows-msvc/debug/mylib.dll", {
+  test: ["int", ["string", "pointer"]],
 });
 
-// for (let i = 0; i < 10000; i++) {
-// console.log(`Session list ${i}:`);
-// 调用 C 函数
-const dbFile = path.join(__dirname, "session.db");
-get_latest_sessions_from_local(dbFile, callbackType);
-// }
+async function demo() {
+  new Promise(resolve => {
+    const callbackType = ffi.Callback("void", ["string"], (sessionList) => {
+      console.log("Session list:", sessionList.length);
+      resolve(sessionList.length);
+    });
+
+    const dbFile = path.join(__dirname, "session.db");
+    console.log("start");
+    const a = test(dbFile, callbackType);
+    console.log("a from js ： ", a);
+  })
+}
+
+demo();
