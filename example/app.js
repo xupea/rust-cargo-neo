@@ -1,9 +1,13 @@
 const path = require("path");
 const ffi = require("ffi-napi");
 
+const libPath = {
+  "win32": "../target/i686-pc-windows-msvc/debug/mylib.dll",
+  "darwin": "../target/debug/libmylib.dylib"
+}
 // Define the argument types and return type of the factorial function
-const { test } = ffi.Library("../target/i686-pc-windows-msvc/debug/mylib.dll", {
-  test: ["int", ["string", "pointer"]],
+const { invoke } = ffi.Library(libPath[process.platform], {
+  invoke: ["int", ["string", "pointer"]],
 });
 
 async function demo() {
@@ -15,7 +19,7 @@ async function demo() {
 
     const dbFile = path.join(__dirname, "session.db");
     console.log("start");
-    const a = test(dbFile, callbackType);
+    const a = invoke(dbFile, callbackType);
     console.log("a from js ： ", a);
   })
 }

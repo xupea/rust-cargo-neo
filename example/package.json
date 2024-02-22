@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "build": "cargo build --manifest-path ../Cargo.toml --target i686-pc-windows-msvc"
+    "build-w": "cargo build --manifest-path ../Cargo.toml --target i686-pc-windows-msvc",
+    "build-m": "cargo build --manifest-path ../Cargo.toml"
   },
   "keywords": [],
   "author": "",
